@@ -3,6 +3,8 @@ import logging
 import json_lexer
 import json_parser
 
+from json_builder import JSONObject
+
 logger = logging.getLogger('json_string_functions')
 
 
@@ -21,7 +23,7 @@ def from_json(json_string):
 
 def to_json(obj):
     # print(type(obj))
-    types = [dict, list, str, int, float, bool, type(None)]
+    types = [dict, list, str, int, float, bool, type(None), JSONObject]
     assert type(obj) in types, 'Not allowed type'
     logger.info('to_json: Received object: ' + str(obj))
     json_type = type(obj)
@@ -69,6 +71,8 @@ def to_json(obj):
     elif isinstance(obj, type(None)):
         logger.info('to_json: Returned string: null')
         return 'null'
+    elif json_type is JSONObject:
+        return obj.to_json()
 
     logger.info('to_json: Returned string: ' + str(obj))
     return str(obj)
