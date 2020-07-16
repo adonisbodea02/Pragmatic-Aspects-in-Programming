@@ -6,6 +6,15 @@ logger = logging.getLogger('json_builder')
 
 
 class JSONObject(object):
+    def __init__(self):
+        self.json = ''
+
+    @staticmethod
+    def builder():
+        return JSONObjectBuilder()
+
+
+class JSONObjectBuilder(object):
 
     def __init__(self):
         self.fields = {}
@@ -115,6 +124,8 @@ class JSONObject(object):
             logger.error(str(e))
             return self
 
-    def to_json(self) -> str:
+    def build(self) -> JSONObject:
+        jo = JSONObject()
         import string_functions
-        return string_functions.to_json(self.fields)
+        jo.json = string_functions.to_json(self.fields)
+        return jo
